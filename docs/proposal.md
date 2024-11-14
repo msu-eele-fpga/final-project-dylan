@@ -2,7 +2,13 @@
 This file is the template for your final project proposal. Please update this file with your proposal details (delete these first two sentences, please :slightly_smiling_face:)
 
 ## Hardware/software proposal 1
-Describe one of the hardware and software proposals. The hardware and software must work together. Include a brief description of the hardware/software interface (e.g., what sort of registers will you create/use, etc.)
+Hardware:
+- Servo motor with position based on the selected LED (will add an additional RGB LED to allow for choosing functionality)
+
+Software:
+- Software for choosing what LED will be watched + software to change the servo motor position based on that LED's color
+
+![pic](assets/fp_pic.jpg)
 
 ## Hardware/software proposal 2
 Describe the other hardware and software proposal. The hardware and software must work together. Include a brief description of the hardware/software interface (e.g., what sort of registers will you create/use, etc.)
