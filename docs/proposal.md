@@ -8,7 +8,7 @@ Hardware:
 Software:
 - Software for choosing what LED will be watched + software to change the servo motor position based on that LED's color
 
-![pic](assets/fp_pic.jpg)
+![pic](assets/pic.jpg)
 
 ## Hardware/software proposal 2
 Describe the other hardware and software proposal. The hardware and software must work together. Include a brief description of the hardware/software interface (e.g., what sort of registers will you create/use, etc.)
