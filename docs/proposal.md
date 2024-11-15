@@ -1,5 +1,5 @@
 # Final project proposal
-This file is the template for your final project proposal. Please update this file with your proposal details (delete these first two sentences, please :slightly_smiling_face:)
+<!-- This file is the template for your final project proposal. Please update this file with your proposal details (delete these first two sentences, please :slightly_smiling_face:) -->
 
 ## Hardware/software proposal 1
 Hardware:
@@ -11,7 +11,11 @@ Software:
 ![pic](assets/fp_pic.jpg)
 
 ## Hardware/software proposal 2
-Describe the other hardware and software proposal. The hardware and software must work together. Include a brief description of the hardware/software interface (e.g., what sort of registers will you create/use, etc.)
+Hardware: 
+- Temperature sensor. KY-015 DHT11.  
+
+Software:
+- Software that takes the value range of the sensor and outputs an RGB color.
 
 ## Extra credit
 Define any extra credit proposals here.
