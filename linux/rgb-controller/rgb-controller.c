@@ -8,9 +8,11 @@
 #include <linux/fs.h>
 #include <linux/kstrtox.h>
 
-#define RED_VALUE_OFFSET 0
-#define BLUE_VALUE_OFFSET 4
-#define GREEN_VALUE_OFFSET 8
+#define PERIOD_OFFSET 0
+#define RED_VALUE_OFFSET 12
+#define GREEN_VALUE_OFFSET 4
+#define BLUE_VALUE_OFFSET 8
+
 
 /**
 * struct rgb_controller_dev - Private led patterns device struct.
@@ -25,12 +27,68 @@
 */
 struct rgb_controller_dev {
     void __iomem *base_addr;
+    void __iomem *period;
     void __iomem *red_value;
-    void __iomem *blue_value;
     void __iomem *green_value;
+    void __iomem *blue_value;
     struct miscdevice miscdev;
     struct mutex lock;
 };
+
+/**
+* period_show() - Return the period value
+* to user-space via sysfs.
+* @dev: Device structure for the rgb_controller component. This
+* device struct is embedded in the rgb_controller' device struct.
+* @attr: Unused.
+* @buf: Buffer that gets returned to user-space.
+*
+* Return: The number of bytes read.
+*/
+static ssize_t period_show(struct device *dev,
+    struct device_attribute *attr, char *buf)
+{
+    u8 period;
+
+    // Get the private rgb_controller data out of the dev struct
+    struct rgb_controller_dev *priv = dev_get_drvdata(dev);
+
+    period = ioread32(priv->period);
+
+    return scnprintf(buf, PAGE_SIZE, "%u\n", period);
+}
+
+/**
+* period_store() - Store the period value.
+* @dev: Device structure for the rgb_controller component. This
+* device struct is embedded in the rgb_controller'
+* platform device struct.
+* @attr: Unused.
+* @buf: Buffer that contains the red_value value being written.
+* @size: The number of bytes being written.
+*
+* Return: The number of bytes stored.
+*/
+static ssize_t period_store(struct device *dev,
+    struct device_attribute *attr, const char *buf, size_t size)
+{
+    u8 period;
+    int ret;
+    struct rgb_controller_dev *priv = dev_get_drvdata(dev);
+
+    // Parse the string we received as a u8
+    // See https://elixir.bootlin.com/linux/latest/source/lib/kstrtox.c#L289
+    ret = kstrtou8(buf, 0, &period);
+    if (ret < 0) {
+        // kstrtou8 returned an error
+        return ret;
+    }
+
+    iowrite32(period, priv->period);
+
+    // Write was successful, so we return the number of bytes we wrote.
+    return size;
+}
 
 /**
 * red_value_show() - Return the red_value value
@@ -82,58 +140,6 @@ static ssize_t red_value_store(struct device *dev,
     }
 
     iowrite32(red_value, priv->red_value);
-
-    // Write was successful, so we return the number of bytes we wrote.
-    return size;
-}
-/**
-* blue_value_show() - Return the blue_value value to user-space via sysfs.
-* @dev: Device structure for the rgb_controller component. This
-* device struct is embedded in the rgb_controller' platform
-* device struct.
-* @attr: Unused.
-* @buf: Buffer that gets returned to user-space.
-*
-* Return: The number of bytes read.
-*/
-static ssize_t blue_value_show(struct device *dev,
-    struct device_attribute *attr, char *buf)
-{
-    u8 blue_value;
-    struct rgb_controller_dev *priv = dev_get_drvdata(dev);
-
-    blue_value = ioread32(priv->blue_value);
-
-    return scnprintf(buf, PAGE_SIZE, "%u\n", blue_value);
-}
-
-/**
-* blue_value_store() - Store the blue_value value.
-* @dev: Device structure for the rgb_controller component. This
-* device struct is embedded in the rgb_controller' platform
-* device struct.
-* @attr: Unused.
-* @buf: Buffer that contains the blue_value value being written.
-* @size: The number of bytes being written.
-*
-* Return: The number of bytes stored.
-*/
-static ssize_t blue_value_store(struct device *dev,
-    struct device_attribute *attr, const char *buf, size_t size)
-{
-    u8 blue_value;
-    int ret;
-    struct rgb_controller_dev *priv = dev_get_drvdata(dev);
-
-    // Parse the string we received as a u8
-    // See https://elixir.bootlin.com/linux/latest/source/lib/kstrtox.c#L289
-    ret = kstrtou8(buf, 0, &blue_value);
-    if (ret < 0) {
-        // kstrtou8 returned an error
-        return ret;
-    }
-
-    iowrite32(blue_value, priv->blue_value);
 
     // Write was successful, so we return the number of bytes we wrote.
     return size;
@@ -191,7 +197,62 @@ static ssize_t green_value_store(struct device *dev,
     return size;
 }
 
+
+/**
+* blue_value_show() - Return the blue_value value to user-space via sysfs.
+* @dev: Device structure for the rgb_controller component. This
+* device struct is embedded in the rgb_controller' platform
+* device struct.
+* @attr: Unused.
+* @buf: Buffer that gets returned to user-space.
+*
+* Return: The number of bytes read.
+*/
+static ssize_t blue_value_show(struct device *dev,
+    struct device_attribute *attr, char *buf)
+{
+    u8 blue_value;
+    struct rgb_controller_dev *priv = dev_get_drvdata(dev);
+
+    blue_value = ioread32(priv->blue_value);
+
+    return scnprintf(buf, PAGE_SIZE, "%u\n", blue_value);
+}
+
+/**
+* blue_value_store() - Store the blue_value value.
+* @dev: Device structure for the rgb_controller component. This
+* device struct is embedded in the rgb_controller' platform
+* device struct.
+* @attr: Unused.
+* @buf: Buffer that contains the blue_value value being written.
+* @size: The number of bytes being written.
+*
+* Return: The number of bytes stored.
+*/
+static ssize_t blue_value_store(struct device *dev,
+    struct device_attribute *attr, const char *buf, size_t size)
+{
+    u8 blue_value;
+    int ret;
+    struct rgb_controller_dev *priv = dev_get_drvdata(dev);
+
+    // Parse the string we received as a u8
+    // See https://elixir.bootlin.com/linux/latest/source/lib/kstrtox.c#L289
+    ret = kstrtou8(buf, 0, &blue_value);
+    if (ret < 0) {
+        // kstrtou8 returned an error
+        return ret;
+    }
+
+    iowrite32(blue_value, priv->blue_value);
+
+    // Write was successful, so we return the number of bytes we wrote.
+    return size;
+}
+
 // Define sysfs attributes
+static DEVICE_ATTR_RW(period);
 static DEVICE_ATTR_RW(red_value);
 static DEVICE_ATTR_RW(blue_value);
 static DEVICE_ATTR_RW(green_value);
@@ -199,9 +260,10 @@ static DEVICE_ATTR_RW(green_value);
 // Create an attribute group so the device core can
 // export the attributes for us.
 static struct attribute *rgb_controller_attrs[] = {
+    &dev_attr_period.attr,
     &dev_attr_red_value.attr, 
-    &dev_attr_blue_value.attr,
     &dev_attr_green_value.attr,
+    &dev_attr_blue_value.attr,
     NULL,
 };
 ATTRIBUTE_GROUPS(rgb_controller);
@@ -374,9 +436,11 @@ static int rgb_controller_probe(struct platform_device *pdev)
     }
 
     // Set the memory addresses for each register.
+    priv->period = priv->base_addr + PERIOD_OFFSET;
     priv->red_value = priv->base_addr + RED_VALUE_OFFSET;
-    priv->blue_value = priv->base_addr + BLUE_VALUE_OFFSET;
     priv->green_value = priv->base_addr + GREEN_VALUE_OFFSET;
+    priv->blue_value = priv->base_addr + BLUE_VALUE_OFFSET;
+    
 
     // Enable software-control mode and turn all the LEDs on, just for fun.
     //iowrite32(1, priv->red_value);
