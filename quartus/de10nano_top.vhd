@@ -230,6 +230,9 @@ architecture de10nano_arch of de10nano_top is
       hps_io_hps_io_gpio_inst_gpio53  : inout std_logic;
       hps_io_hps_io_gpio_inst_gpio54  : inout std_logic;
       hps_io_hps_io_gpio_inst_gpio61  : inout std_logic;
+		led_patterns_avalon_led         : out   std_logic_vector(7 downto 0);                     -- led
+      led_patterns_avalon_push_button : in    std_logic                     := 'X';             -- push_button
+      led_patterns_avalon_switches    : in    std_logic_vector(3 downto 0)  := (others => 'X'); -- switches
       memory_mem_a                    : out   std_logic_vector(14 downto 0);
       memory_mem_ba                   : out   std_logic_vector(2 downto 0);
       memory_mem_ck                   : out   std_logic;
@@ -251,15 +254,24 @@ architecture de10nano_arch of de10nano_top is
       adc_sclk                        : out   std_logic;
       adc_cs_n                        : out   std_logic;
       adc_dout                        : in    std_logic;
-      adc_din                         : out   std_logic
+      adc_din                         : out   std_logic;
+		rgb_controller_avalon_rgb_output : out   std_logic_vector(2 downto 0)                      -- rgb_output
     );
   end component soc_system;
 
-  signal rst_n : std_ulogic;
+  signal push_button 	: std_ulogic := '0';
+  signal rst		: std_ulogic := '0';
+  signal gpio_RGB_std : std_logic_vector(2 downto 0);
+  signal led_sig	: std_logic_vector(7 downto 0);
 
 begin
 
-  rst_n <= push_button_n(0);
+  --rst_n <= push_button_n(0);
+  
+  push_button <= not push_button_n(0);
+  rst	<= not push_button_n(1);
+  led <= std_ulogic_vector(led_sig);
+  gpio_1(2 downto 0) <= std_ulogic_vector(gpio_RGB_std);
 
   u0 : component soc_system
     port map (
@@ -348,10 +360,19 @@ begin
       adc_cs_n => adc_convst,
       adc_dout => adc_sdo,
       adc_din  => adc_sdi,
+		
+		-- led_patterns 
+		led_patterns_avalon_led          => led_sig,											           --   led_patterns_avalon.led
+      led_patterns_avalon_push_button  => push_button,											  --                      .push_button
+      led_patterns_avalon_switches     => std_logic_vector(sw),
+		
+		-- rgb_controller
+		rgb_controller_avalon_rgb_output => gpio_RGB_std,  -- rgb_controller_avalon.rgb_output
+
 
       -- Fabric clock and reset
       clk_clk       => fpga_clk1_50,
-      reset_reset_n => rst_n
+      reset_reset_n => rst
     );
 
 end architecture de10nano_arch;
