@@ -1,0 +1,12 @@
+#include "socfpga_cyclone5_de10nano.dtsi"
+
+/{
+    led_patterns: led_patterns@ff200000 {
+        compatible = "Raber,led_patterns";
+        reg = <0xff200000 16>;
+    };
+    rgb_controller: rgb_controller@ff27ad00 {
+        compatible = "Raber,rgb_controller";
+        reg = <0xff27ad00 16>;
+    };
+};
