@@ -260,7 +260,7 @@ architecture de10nano_arch of de10nano_top is
   end component soc_system;
 
   signal push_button 	: std_ulogic := '0';
-  signal rst		: std_ulogic := '0';
+  signal rst_n		: std_ulogic := '0';
   signal gpio_RGB_std : std_logic_vector(2 downto 0);
   signal led_sig	: std_logic_vector(7 downto 0);
 
@@ -269,7 +269,7 @@ begin
   --rst_n <= push_button_n(0);
   
   push_button <= not push_button_n(0);
-  rst	<= not push_button_n(1);
+  rst_n	<= push_button_n(1);
   led <= std_ulogic_vector(led_sig);
   gpio_1(2 downto 0) <= std_ulogic_vector(gpio_RGB_std);
 
@@ -372,7 +372,7 @@ begin
 
       -- Fabric clock and reset
       clk_clk       => fpga_clk1_50,
-      reset_reset_n => rst
+      reset_reset_n => rst_n
     );
 
 end architecture de10nano_arch;
