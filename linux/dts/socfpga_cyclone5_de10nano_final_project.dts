@@ -9,4 +9,8 @@
         compatible = "Raber,rgb_controller";
         reg = <0xff27ad00 16>;
     };
+    de10nano_adc: de10nano_adc@ff200020 {
+        compatible = "Raber,de10nano_adc";
+        reg = <0xff200020 16>;
+    };
 };

@@ -371,7 +371,7 @@ static int adc_probe(struct platform_device *pdev)
 
 	// Initialize the misc device parameters
 	priv->miscdev.minor = MISC_DYNAMIC_MINOR;
-	priv->miscdev.name = "adc";
+	priv->miscdev.name = "de10nano_adc";
 	priv->miscdev.fops = &adc_fops;
 	priv->miscdev.parent = &pdev->dev;
 
@@ -421,7 +421,7 @@ static int adc_remove(struct platform_device *pdev)
  * compatible string as defined here.
  */
 static const struct of_device_id adc_of_match[] = {
-	{ .compatible = "adsd,de10nano_adc", },
+	{ .compatible = "Raber,de10nano_adc", },
 	{ }
 };
 MODULE_DEVICE_TABLE(of, adc_of_match);
