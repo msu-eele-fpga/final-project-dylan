@@ -255,13 +255,15 @@ architecture de10nano_arch of de10nano_top is
       adc_cs_n                        : out   std_logic;
       adc_dout                        : in    std_logic;
       adc_din                         : out   std_logic;
-		rgb_controller_avalon_rgb_output : out   std_logic_vector(2 downto 0)                      -- rgb_output
+		rgb_controller_avalon_rgb_output : out   std_logic_vector(2 downto 0);                      -- rgb_output
+		servo_controller_avalon_pwm_output : out   std_logic                                        -- pwm_output
     );
   end component soc_system;
 
   signal push_button 	: std_ulogic := '0';
   signal rst_n		: std_ulogic := '0';
   signal gpio_RGB_std : std_logic_vector(2 downto 0);
+  signal gpio_Servo : std_logic;
   signal led_sig	: std_logic_vector(7 downto 0);
 
 begin
@@ -272,6 +274,8 @@ begin
   rst_n	<= push_button_n(1);
   led <= std_ulogic_vector(led_sig);
   gpio_1(2 downto 0) <= std_ulogic_vector(gpio_RGB_std);
+  gpio_1(35) <= std_ulogic_vector(gpio_RGB_std);
+  
 
   u0 : component soc_system
     port map (
@@ -368,6 +372,9 @@ begin
 		
 		-- rgb_controller
 		rgb_controller_avalon_rgb_output => gpio_RGB_std,  -- rgb_controller_avalon.rgb_output
+		
+		-- servo_controller
+		servo_controller_avalon_pwm_output => gpio_Servo  -- servo_controller_avalon.pwm_output
 
 
       -- Fabric clock and reset

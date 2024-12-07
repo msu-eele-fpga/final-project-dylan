@@ -94,6 +94,30 @@
          type = "String";
       }
    }
+   element servo_Controller_0
+   {
+      datum _sortIndex
+      {
+         value = "7";
+         type = "int";
+      }
+   }
+   element servo_Controller_0.avalon_slave_0
+   {
+      datum baseAddress
+      {
+         value = "80";
+         type = "String";
+      }
+   }
+   element soc_system
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone V";
+         type = "String";
+      }
+   }
    element soc_system
    {
       datum _originalDeviceFamily
@@ -413,6 +437,11 @@
  <interface
    name="rgb_controller_avalon"
    internal="rgb_controller_avalon_0.conduit"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="servo_controller_avalon"
+   internal="servo_Controller_0.conduit"
    type="conduit"
    dir="end" />
  <module name="adc" kind="altera_up_avalon_adc" version="18.0" enabled="1">
@@ -1186,6 +1215,11 @@
    kind="rgb_controller_avalon"
    version="1.0"
    enabled="1" />
+ <module
+   name="servo_Controller_0"
+   kind="servo_Controller"
+   version="1.0"
+   enabled="1" />
  <connection
    kind="avalon"
    version="23.1"
@@ -1216,6 +1250,15 @@
  <connection
    kind="avalon"
    version="23.1"
+   start="hps.h2f_lw_axi_master"
+   end="servo_Controller_0.avalon_slave_0">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0050" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="23.1"
    start="jtag_master.master"
    end="adc.adc_slave">
   <parameter name="arbitrationPriority" value="1" />
@@ -1238,6 +1281,15 @@
    end="led_patterns_avalon_0.avalon_slave_0">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x0000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="23.1"
+   start="jtag_master.master"
+   end="servo_Controller_0.avalon_slave_0">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0050" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -1250,6 +1302,11 @@
    version="23.1"
    start="fpga_clk.clk"
    end="led_patterns_avalon_0.clk" />
+ <connection
+   kind="clock"
+   version="23.1"
+   start="fpga_clk.clk"
+   end="servo_Controller_0.clk" />
  <connection
    kind="clock"
    version="23.1"
@@ -1287,6 +1344,11 @@
    version="23.1"
    start="fpga_clk.clk_reset"
    end="led_patterns_avalon_0.rst" />
+ <connection
+   kind="reset"
+   version="23.1"
+   start="fpga_clk.clk_reset"
+   end="servo_Controller_0.rst" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
  <interconnectRequirement for="$system" name="qsys_mm.maxAdditionalLatency" value="1" />
 </system>
