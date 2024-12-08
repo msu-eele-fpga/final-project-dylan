@@ -1,7 +1,6 @@
-# RGB LED Controller VHDL for the DE10 Nano
+# Servo Controller VHDL for the DE10 Nano
 
-In order to control the RGB LED, we need to code up a RGB LED controller program and create a component for it.
-In order to communicate with the servo controller component, we need to create a driver for it. This driver will function very similarly to the RGB controller driver.
+In order to control my custom component, a micro servo, we need to code up a servo controller program and create a component for it.
 
 ## System Architecture
 
