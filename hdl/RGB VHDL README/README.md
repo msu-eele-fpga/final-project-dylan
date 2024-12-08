@@ -33,7 +33,7 @@ To create and implement the rgb controller component (instructions are courtesy 
 4. In Signals & Int , delete any outputs under avalon_slave_0.
 5. Click add interface and add a Clock Input. Rename to clk. Add a signal, and rename it to clk.
 6. Click add interface and add a Reset Input. Rename to rst. Add a signal, and rename it to rst.
-7. Click add interface and add a Conduit. Add a signal and name it rgb_output. Rename the signal type to rgb_output as well.
+7. Click add interface and add a Conduit. Add a signal and name it rgb_output. Set its width to 3, its direction to output, and rename the signal type to rgb_output as well.
 8. Select avalon_slave_0 , and set clock and reset to clk and rst with the dropdown menus. Click finish.
 9. Back on the main page of Platform Designer, double-click on the component you just created to add it.
 10. Connect clk and rst on the component to clk and clk_rst on fpga_clk.
