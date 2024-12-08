@@ -13,4 +13,8 @@
         compatible = "Raber,de10nano_adc";
         reg = <0xff200020 16>;
     };
+    servo_controller: servo_controller@ff201000 {
+        compatible = "Raber,servo_controller";
+        reg = <0xff201000 16>;
+    };
 };

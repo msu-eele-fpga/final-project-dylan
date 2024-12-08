@@ -106,7 +106,7 @@
    {
       datum baseAddress
       {
-         value = "80";
+         value = "4096";
          type = "String";
       }
    }
@@ -1253,7 +1253,7 @@
    start="hps.h2f_lw_axi_master"
    end="servo_Controller_0.avalon_slave_0">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x0050" />
+  <parameter name="baseAddress" value="0x1000" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -1289,7 +1289,7 @@
    start="jtag_master.master"
    end="servo_Controller_0.avalon_slave_0">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x0050" />
+  <parameter name="baseAddress" value="0x1000" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
