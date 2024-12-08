@@ -88,9 +88,9 @@ dkms.conf
 *.summary
 *srf
 c5_pin_model_dump.txt
-synthesis/
-submodules/
-soc_system/
+#synthesis/
+#submodules/
+#soc_system/
 hps_isw_handoff/
 db/
 .qsys_edit/
