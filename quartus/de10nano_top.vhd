@@ -274,7 +274,7 @@ begin
   rst_n	<= push_button_n(1);
   led <= std_ulogic_vector(led_sig);
   gpio_1(2 downto 0) <= std_ulogic_vector(gpio_RGB_std);
-  gpio_1(35) <= std_ulogic_vector(gpio_RGB_std);
+  gpio_1(35) <= std_ulogic(gpio_Servo);
   
 
   u0 : component soc_system
@@ -374,7 +374,7 @@ begin
 		rgb_controller_avalon_rgb_output => gpio_RGB_std,  -- rgb_controller_avalon.rgb_output
 		
 		-- servo_controller
-		servo_controller_avalon_pwm_output => gpio_Servo  -- servo_controller_avalon.pwm_output
+		servo_controller_avalon_pwm_output => gpio_Servo,  -- servo_controller_avalon.pwm_output
 
 
       -- Fabric clock and reset
