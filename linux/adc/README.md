@@ -12,9 +12,9 @@ Run `make` in this directory to build to kernel module.
 
 Use the following device tree node:
 ```devicetree
-de10nano_adc: adc@ff200000 {
-    compatible = "adsd,de10nano_adc";
-    reg = <0xff200000 32>;
+de10nano_adc: de10nano_adc@ff200020 {
+    compatible = "Raber,de10nano_adc";
+    reg = <0xff200020 16>;
 };
 ```
 
@@ -31,7 +31,7 @@ This register map is dumb. Write-only registers are dumb. Having different read/
 | Offset | Name         | R/W | Purpose                    |
 |--------|--------------|-----|----------------------------|
 | 0x0    | CH_0         | R   | Channel 0 value            |
-| 0x0    | udpate       | W   | Manually update values     |
+| 0x0    | update       | W   | Manually update values     |
 | 0x4    | CH_1         | R   | Channel 1 value            |
 | 0x4    | auto_update  | W   | enable/disable auto update |
 | 0x8    | CH_2         | R   | Channel 2 value            |
@@ -45,3 +45,25 @@ This register map is dumb. Write-only registers are dumb. Having different read/
 
 - [DE-Series ADC Controller HDL component documentation](https://ftp.intel.com/Public/Pub/fpgaup/pub/Teaching_Materials/current/Tutorials/Using_DE_Series_ADC.pdf)
 - [AD LTC2308 ADC](https://www.analog.com/en/products/ltc2308.html)
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Potentiometer-LED C Program
+
+Before I had my custom software up and running, I made this C program that would read the potentiometer values and sends corresponding control words to the RGB LED's nodes (ie. the potentiometers control what combination of R,G, and B light up on the LED).
+
+## Building
+
+To compile the program, run the following command in the terminal of this directory (while on your VM):
+
+`/usr/bin/arm-linux-gnueabihf -gcc -o pots_2_LEDS pots_2_LEDS.c`
+
+Now all you have to do is put it on your nfs server where you can run it (ex: /srv/nfs/de10nano/ubuntu-rootfs/home/soc).
+
+## Notes / bugs :bug:
+
+You can exit out of the code using Ctrl+C. Make sure you're adc_controller and rgb_controller devices are loaded into the device tree, otherwise the program won't work. There are commented out print statements in the c file that can be uncommented to show the values being updated in real time as well.
+
+## Documentation
+
+N/A
