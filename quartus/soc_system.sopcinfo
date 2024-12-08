@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="soc_system" kind="soc_system" version="1.0" fabric="QSYS">
  <!-- Format version 23.1 993 (Future versions may contain additional information.) -->
- <!-- 2024.12.07.15:50:54 -->
+ <!-- 2024.12.07.17:20:38 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1733611854</value>
+  <value>1733617237</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -20645,7 +20645,7 @@ parameters are a RESULT of the module parameters. -->
     <moduleName>servo_Controller_0</moduleName>
     <slaveName>avalon_slave_0</slaveName>
     <name>servo_Controller_0.avalon_slave_0</name>
-    <baseAddress>80</baseAddress>
+    <baseAddress>4096</baseAddress>
     <span>16</span>
    </memoryBlock>
   </interface>
@@ -46499,7 +46499,7 @@ parameters are a RESULT of the module parameters. -->
     <moduleName>servo_Controller_0</moduleName>
     <slaveName>avalon_slave_0</slaveName>
     <name>servo_Controller_0.avalon_slave_0</name>
-    <baseAddress>80</baseAddress>
+    <baseAddress>4096</baseAddress>
     <span>16</span>
    </memoryBlock>
   </interface>
@@ -47638,7 +47638,7 @@ parameters are a RESULT of the module parameters. -->
     <moduleName>servo_Controller_0</moduleName>
     <slaveName>avalon_slave_0</slaveName>
     <name>servo_Controller_0.avalon_slave_0</name>
-    <baseAddress>4280287312</baseAddress>
+    <baseAddress>4280291328</baseAddress>
     <span>16</span>
    </memoryBlock>
    <memoryBlock>
@@ -48481,7 +48481,7 @@ parameters are a RESULT of the module parameters. -->
     <moduleName>servo_Controller_0</moduleName>
     <slaveName>avalon_slave_0</slaveName>
     <name>servo_Controller_0.avalon_slave_0</name>
-    <baseAddress>4280287312</baseAddress>
+    <baseAddress>4280291328</baseAddress>
     <span>16</span>
    </memoryBlock>
    <memoryBlock>
@@ -76581,7 +76581,7 @@ parameters are a RESULT of the module parameters. -->
     <moduleName>servo_Controller_0</moduleName>
     <slaveName>avalon_slave_0</slaveName>
     <name>servo_Controller_0.avalon_slave_0</name>
-    <baseAddress>80</baseAddress>
+    <baseAddress>4096</baseAddress>
     <span>16</span>
    </memoryBlock>
   </interface>
@@ -86384,7 +86384,7 @@ parameters are a RESULT of the module parameters. -->
   </parameter>
   <parameter name="baseAddress">
    <type>java.math.BigInteger</type>
-   <value>0x0050</value>
+   <value>0x1000</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -86588,7 +86588,7 @@ parameters are a RESULT of the module parameters. -->
   </parameter>
   <parameter name="baseAddress">
    <type>java.math.BigInteger</type>
-   <value>0x0050</value>
+   <value>0x1000</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
