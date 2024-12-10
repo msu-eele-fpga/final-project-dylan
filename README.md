@@ -54,6 +54,7 @@ sudo insmod de10nano_adc.ko
 8. Run the following command to run the software's C program:
 
 ` sudo ./pot_RGB_Servo `
+
 9. The terminal should tell you that you can now move your potentiometers for RGB LED lightup and Servo Movement!
 
 [Back to top](#top)
