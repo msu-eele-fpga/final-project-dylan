@@ -6,7 +6,7 @@ The goal of this project was to create a system that can change the RGB color va
 
 ![cool_pic](../assets/chart_pic.jpg)
 
-The installation and setup guide to get everything working as well as the Wiring Diagram for this project can be found in the final-project-dylan directory's README file.
+The installation and setup guide to get everything working as well as the Wiring Diagram for this project can be found in the top-level README file.
 
 ## Servo Motor Component
 
