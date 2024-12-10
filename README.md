@@ -31,7 +31,7 @@ Here's a set-up guide for the software to make sure all the files are in their r
 4. Add the files under /final-project-dylan/linux/file_jambalaya/final-project/ to that folder.
 5. Navigate to /srv/nfs/de10nano/ubuntu-rootfs/home/soc/ on your VM.
 6. Add the files under /final-project-dylan/linux/file_jambalaya/soc/ to that folder.
-7. Navigate to /final-project-dylan/linux/dts. 
+7. Navigate to /final-project-dylan/linux/dts on your VM. 
 8. Follow the README file in that folder to link the dts file.
 9. Everything should be in the right place now!
 
@@ -51,7 +51,8 @@ sudo insmod rgb_controller.ko
 sudo insmod servo_controller.ko
 sudo insmod de10nano_adc.ko
 ```
-8. Run the following command to run the software's C program
+8. Run the following command to run the software's C program:
+
 ` sudo ./pot_RGB_Servo `
 9. The terminal should tell you that you can now move your potentiometers for RGB LED lightup and Servo Movement!
 
