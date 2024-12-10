@@ -1,0 +1,21 @@
+setenv tftpkerneldir ${tftpdir}/kernel
+setenv tftpprojectdir ${tftpdir}/final-project
+setenv nfsrootdir /srv/nfs/de10nano/ubuntu-rootfs
+setenv bootargs console=ttyS0,115200 ip=${ipaddr} root=/dev/nfs rw nfsroot=${serverip}:${nfsrootdir},v4,tcp nfsrootdebug earlyprintk=serial
+setenv fpgaimage final_project.rbf
+setenv dtbimage final-project.dtb
+setenv bootimage zImage
+setenv fpgadata 0x2000000
+setenv fpgadatasize 0x700000
+setenv dtbaddr 0x00000100
+setenv kerneladdr 0x8000
+setenv getfpgadata 'tftp ${fpgadata} ${tftpprojectdir}/${fpgaimage}'
+setenv getdtb 'tftp ${dtbaddr} ${tftpprojectdir}/${dtbimage}'
+setenv getkernel 'tftp ${kerneladdr} ${tftpkerneldir}/${bootimage}'
+setenv loadfpga 'fpga load 0 ${fpgadata} ${fpgadatasize}'
+run getfpgadata;
+run loadfpga;
+run getdtb;
+run getkernel;
+run bridge_enable_handoff;
+bootz ${kerneladdr} - ${dtbaddr}
