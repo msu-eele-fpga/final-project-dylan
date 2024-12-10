@@ -59,6 +59,9 @@ begin
 	rgb_output => rgb_output
   );
   
+  -- avalon read and write processes: pretty self-explanatory, lets the avalon
+  -- master bridge send and receive the register info
+  
   -- for read: 
   -- 		period_sig = unused (31 downto 12) + period(11 downto 0)
   --		duty_cycle_R_sig = unused(31 downto 10) + duty_cycle_R(9 downto 0)

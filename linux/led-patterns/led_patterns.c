@@ -142,7 +142,7 @@ static ssize_t base_period_store(struct device *dev,
 /**
 * led_reg_show() - Return the led_reg value to user-space via sysfs.
 * @dev: Device structure for the led_patterns component. This
-* device struct is embedded in the led_patterns' platform
+* device struct is embedded in the led_patterns's platform
 * device struct.
 * @attr: Unused.
 * @buf: Buffer that gets returned to user-space.
@@ -163,7 +163,7 @@ static ssize_t led_reg_show(struct device *dev,
 /**
 * led_reg_store() - Store the led_reg value.
 * @dev: Device structure for the led_patterns component. This
-* device struct is embedded in the led_patterns' platform
+* device struct is embedded in the led_patterns's platform
 * device struct.
 * @attr: Unused.
 * @buf: Buffer that contains the led_reg value being written.
@@ -378,7 +378,7 @@ static int led_patterns_probe(struct platform_device *pdev)
     priv->base_period = priv->base_addr + BASE_PERIOD_OFFSET;
     priv->led_reg = priv->base_addr + LED_REG_OFFSET;
 
-    // Enable software-control mode and turn all the LEDs on, just for fun.
+    // Enable software-control mode and turn the right 4 LEDs on, just for fun.
     iowrite32(1, priv->hps_led_control);
     iowrite32(0xf0, priv->led_reg);
 

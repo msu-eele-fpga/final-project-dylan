@@ -27,8 +27,12 @@ begin
 	-- servo motors pwm has a start point at 1 ms (duty cycle = 5% since period = 50 Hz), thus the added 50000 (1 mil / 20 = 50k)
 	-- duty_cycle can be between 0 and 255, and stop point for pwm is 2 ms (so our range is 1 mil to 2 mil), so time increment is 1 mil / 255 = 3921 ish
 	-- as such, we multiple duty_cycle by 196 (~3921 / 20) to get from 1 mil (50k) to (almost) 2 mil (100k) in 15 increments
+	
+	-- updates duty cycle when the input signal changes
 	duty_cycle_max <= (duty_cycle*196) + "00000000000000001100001101010000";
 
+	
+	-- simple pwm counter process that makes a pwm with a period of 20 ms (as long as the clock is 50 MHz) with the input duty cycle
 	clk_cnt_proc : process(clk,rst)
 	begin
 		if (rising_edge(clk)) then

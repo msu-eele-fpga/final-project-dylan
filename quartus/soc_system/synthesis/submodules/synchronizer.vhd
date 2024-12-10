@@ -12,6 +12,7 @@ end entity synchronizer;
 architecture synchronizer_arch of synchronizer is
 	signal in_between : std_ulogic;
 	begin
+	-- process that takes the asynchronous signal and synchronizes it to the clk
 		process (clk)
 			begin
 			if (rising_edge(clk)) then

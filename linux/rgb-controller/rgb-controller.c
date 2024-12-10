@@ -15,7 +15,7 @@
 
 
 /**
-* struct rgb_controller_dev - Private led patterns device struct.
+* struct rgb_controller_dev - Private rgb controller device struct.
 * @base_addr: Pointer to the component's base address
 * @red_value: Address of the red_value register
 * @blue_value: Address of the blue_value register
@@ -23,7 +23,7 @@
 * @miscdev: miscdevice used to create a character device
 * @lock: mutex used to prevent concurrent writes to memory
 *
-* An rgb_controller_dev struct gets created for each led patterns component.
+* An rgb_controller_dev struct gets created for each rgb controller component.
 */
 struct rgb_controller_dev {
     void __iomem *base_addr;
@@ -39,7 +39,7 @@ struct rgb_controller_dev {
 * period_show() - Return the period value
 * to user-space via sysfs.
 * @dev: Device structure for the rgb_controller component. This
-* device struct is embedded in the rgb_controller' device struct.
+* device struct is embedded in the rgb_controller's device struct.
 * @attr: Unused.
 * @buf: Buffer that gets returned to user-space.
 *
@@ -61,7 +61,7 @@ static ssize_t period_show(struct device *dev,
 /**
 * period_store() - Store the period value.
 * @dev: Device structure for the rgb_controller component. This
-* device struct is embedded in the rgb_controller'
+* device struct is embedded in the rgb_controller's
 * platform device struct.
 * @attr: Unused.
 * @buf: Buffer that contains the red_value value being written.
@@ -94,7 +94,7 @@ static ssize_t period_store(struct device *dev,
 * red_value_show() - Return the red_value value
 * to user-space via sysfs.
 * @dev: Device structure for the rgb_controller component. This
-* device struct is embedded in the rgb_controller' device struct.
+* device struct is embedded in the rgb_controller's device struct.
 * @attr: Unused.
 * @buf: Buffer that gets returned to user-space.
 *
@@ -116,10 +116,10 @@ static ssize_t red_value_show(struct device *dev,
 /**
 * red_value_store() - Store the red_value value.
 * @dev: Device structure for the rgb_controller component. This
-* device struct is embedded in the rgb_controller'
+* device struct is embedded in the rgb_controller's
 * platform device struct.
 * @attr: Unused.
-* @buf: Buffer that contains the red_value value being written.
+* @buf: Buffer that contains the red value being written.
 * @size: The number of bytes being written.
 *
 * Return: The number of bytes stored.
@@ -148,7 +148,7 @@ static ssize_t red_value_store(struct device *dev,
 /**
 * green_value_show() - Return the green_value value to user-space via sysfs.
 * @dev: Device structure for the rgb_controller component. This
-* device struct is embedded in the rgb_controller' platform
+* device struct is embedded in the rgb_controller's platform
 * device struct.
 * @attr: Unused.
 * @buf: Buffer that gets returned to user-space.
@@ -169,7 +169,7 @@ static ssize_t green_value_show(struct device *dev,
 /**
 * green_value_store() - Store the green_value value.
 * @dev: Device structure for the rgb_controller component. This
-* device struct is embedded in the rgb_controller' platform
+* device struct is embedded in the rgb_controller's platform
 * device struct.
 * @attr: Unused.
 * @buf: Buffer that contains the green_value value being written.
@@ -201,7 +201,7 @@ static ssize_t green_value_store(struct device *dev,
 /**
 * blue_value_show() - Return the blue_value value to user-space via sysfs.
 * @dev: Device structure for the rgb_controller component. This
-* device struct is embedded in the rgb_controller' platform
+* device struct is embedded in the rgb_controller's platform
 * device struct.
 * @attr: Unused.
 * @buf: Buffer that gets returned to user-space.
@@ -222,7 +222,7 @@ static ssize_t blue_value_show(struct device *dev,
 /**
 * blue_value_store() - Store the blue_value value.
 * @dev: Device structure for the rgb_controller component. This
-* device struct is embedded in the rgb_controller' platform
+* device struct is embedded in the rgb_controller's platform
 * device struct.
 * @attr: Unused.
 * @buf: Buffer that contains the blue_value value being written.
@@ -397,11 +397,11 @@ static const struct file_operations rgb_controller_fops = {
 
 /**
 * rgb_controller_probe() - Initialize device when a match is found
-* @pdev: Platform device structure associated with our led patterns device;
+* @pdev: Platform device structure associated with our rgb controller device;
 * pdev is automatically created by the driver core based upon our
-* led patterns device tree node.
+* rgb controller device tree node.
 *
-* When a device that is compatible with this led patterns driver is found, the
+* When a device that is compatible with this rgb controller driver is found, the
 * driver's probe function is called. This probe function gets called by the
 * kernel when an rgb_controller device is found in the device tree.
 */
@@ -411,7 +411,7 @@ static int rgb_controller_probe(struct platform_device *pdev)
     size_t ret;
 
     /*
-    * Allocate kernel memory for the led patterns device and set it to 0.
+    * Allocate kernel memory for the rgb controller device and set it to 0.
     * GFP_KERNEL specifies that we are allocating normal kernel RAM;
     * see the kmalloc documentation for more info. The allocated memory
     * is automatically freed when the device is removed.
@@ -440,11 +440,6 @@ static int rgb_controller_probe(struct platform_device *pdev)
     priv->red_value = priv->base_addr + RED_VALUE_OFFSET;
     priv->green_value = priv->base_addr + GREEN_VALUE_OFFSET;
     priv->blue_value = priv->base_addr + BLUE_VALUE_OFFSET;
-    
-
-    // Enable software-control mode and turn all the LEDs on, just for fun.
-    //iowrite32(1, priv->red_value);
-    //iowrite32(0xf0, priv->green_value);
 
     // Initialize the misc device parameters
     priv->miscdev.minor = MISC_DYNAMIC_MINOR;
@@ -459,7 +454,7 @@ static int rgb_controller_probe(struct platform_device *pdev)
         return ret;
     }
 
-    /* Attach the led patterns's private data to the platform device's struct.
+    /* Attach the rgb controllers's private data to the platform device's struct.
     * This is so we can access our state container in the other functions.
     */
     platform_set_drvdata(pdev, priv);
@@ -469,19 +464,16 @@ static int rgb_controller_probe(struct platform_device *pdev)
 }
 
 /**
-* rgb_controller_remove() - Remove an led patterns device.
-* @pdev: Platform device structure associated with our led patterns device.
+* rgb_controller_remove() - Remove an rgb controller device.
+* @pdev: Platform device structure associated with our rgb controller device.
 *
-* This function is called when an led patterns devicee is removed or
+* This function is called when an rgb controller devicee is removed or
 * the driver is removed.
 */
 static int rgb_controller_remove(struct platform_device *pdev)
 {
-    // Get the led patterns's private data from the platform device.
+    // Get the rgb controllers's private data from the platform device.
     struct rgb_controller_dev *priv = platform_get_drvdata(pdev);
-
-    // Disable software-control mode, just for kicks.
-    //iowrite32(0, priv->red_value);
     
     // Deregister the misc device and remove the /dev/rgb_controller file.
     misc_deregister(&priv->miscdev);

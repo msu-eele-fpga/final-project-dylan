@@ -11,13 +11,13 @@
 #define DUTY_CYCLE_OFFSET 0
 
 /**
-* struct servo_controller_dev - Private led patterns device struct.
+* struct servo_controller_dev - Private rgb patterns device struct.
 * @base_addr: Pointer to the component's base address
 * @red_value: Address of the duty cycle register
 * @miscdev: miscdevice used to create a character device
 * @lock: mutex used to prevent concurrent writes to memory
 *
-* An servo_controller_dev struct gets created for each led patterns component.
+* An servo_controller_dev struct gets created for each rgb patterns component.
 */
 struct servo_controller_dev {
     void __iomem *base_addr;
@@ -221,11 +221,11 @@ static const struct file_operations servo_controller_fops = {
 
 /**
 * servo_controller_probe() - Initialize device when a match is found
-* @pdev: Platform device structure associated with our led patterns device;
+* @pdev: Platform device structure associated with our rgb patterns device;
 * pdev is automatically created by the driver core based upon our
-* led patterns device tree node.
+* rgb patterns device tree node.
 *
-* When a device that is compatible with this led patterns driver is found, the
+* When a device that is compatible with this rgb patterns driver is found, the
 * driver's probe function is called. This probe function gets called by the
 * kernel when an servo_controller device is found in the device tree.
 */
@@ -235,7 +235,7 @@ static int servo_controller_probe(struct platform_device *pdev)
     size_t ret;
 
     /*
-    * Allocate kernel memory for the led patterns device and set it to 0.
+    * Allocate kernel memory for the rgb patterns device and set it to 0.
     * GFP_KERNEL specifies that we are allocating normal kernel RAM;
     * see the kmalloc documentation for more info. The allocated memory
     * is automatically freed when the device is removed.
@@ -279,7 +279,7 @@ static int servo_controller_probe(struct platform_device *pdev)
         return ret;
     }
 
-    /* Attach the led patterns's private data to the platform device's struct.
+    /* Attach the rgb patterns's private data to the platform device's struct.
     * This is so we can access our state container in the other functions.
     */
     platform_set_drvdata(pdev, priv);
@@ -289,19 +289,16 @@ static int servo_controller_probe(struct platform_device *pdev)
 }
 
 /**
-* servo_controller_remove() - Remove an led patterns device.
-* @pdev: Platform device structure associated with our led patterns device.
+* servo_controller_remove() - Remove an rgb patterns device.
+* @pdev: Platform device structure associated with our rgb patterns device.
 *
-* This function is called when an led patterns devicee is removed or
+* This function is called when an rgb patterns devicee is removed or
 * the driver is removed.
 */
 static int servo_controller_remove(struct platform_device *pdev)
 {
-    // Get the led patterns's private data from the platform device.
+    // Get the rgb patterns's private data from the platform device.
     struct servo_controller_dev *priv = platform_get_drvdata(pdev);
-
-    // Disable software-control mode, just for kicks.
-    //iowrite32(0, priv->red_value);
     
     // Deregister the misc device and remove the /dev/servo_controller file.
     misc_deregister(&priv->miscdev);

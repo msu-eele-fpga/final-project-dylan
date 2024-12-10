@@ -30,9 +30,10 @@ architecture pwm_controller_arch of pwm_controller is
 -- max PWM = 63.984375 ms (111111.111111) based off of assigned W and F values given in Table 1 of the HW9 pdf
 -- min change in PWM = 0.015625 ms (1/64) = 15.625 us
 -- min change with sensitivity of +-1 ns = 0.015625 ms = 15625 ns
+
 -- max DC = 0.998046875 % (0-1 range) based off of assigned W and F
 -- min change in DC = 0.001953125 % (0-1 range) (1/512) 
--- min change wrt time (with PWM = 0.015625 ms) = 3051.7578125 ns
+-- min change wrt time (with PWM = 0.015625 ms) = 3051.7578125 ns -> rounded off to 3051 ns
 
 signal period_in_time_int : integer := 50 * 1000000;
 signal clk_cnt_max : unsigned(31 downto 0) := to_unsigned(50,32);
@@ -40,6 +41,8 @@ signal clk_cnt : unsigned(31 downto 0) := (others => '0');
 signal duty_cycle_max : unsigned(31 downto 0) := (others => '0');
 
 begin
+
+--------- calculations for the duty cycle and period timers ------------------
 
 -- based off a sensitivity of +-1 ns (see above calcs)
 period_in_time_int <= ((to_integer(period(W_PERIOD-1 downto 6)) * 1000000) + (to_integer(period(5 downto 0)) * 15625))*2;
@@ -49,6 +52,9 @@ clk_cnt_max <= to_unsigned((period_in_time_int/CLK_PERIOD_NS),32);
 -- the math: (clk_period * duty_cycle(0 to 512)) / 512 = amount of cycles the output should be on for  
 duty_cycle_max <= shift_right(to_unsigned((to_integer(clk_cnt_max)*to_integer(unsigned(duty_cycle))),32),F_DUTY_CYCLE);
 
+--------- end calculations for the duty cycle and period timers --------------
+
+-- pwm process based on the duty cycle and period given
 clk_cnt_proc : process(clk,rst)
 begin
   if rst = '1' then

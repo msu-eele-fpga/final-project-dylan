@@ -46,6 +46,8 @@ end component pwm_controller;
 
 begin
 
+  -- 3 port maps for the 3 nodes on the RGB LED (R, G, and B)
+
   pwm_R : component pwm_controller
   port map (
 	clk			=> clk,

@@ -30,10 +30,11 @@ component servo_Controller is
   );
 end component servo_Controller;
 
--- default duty_cycle of 1.5 ms = 127 (halfway between 0 and 255)
+-- default duty_cycle is 1.5 ms = 127 (halfway between 0 and 255)
 signal duty_cycle_sig 	: std_logic_vector(31 downto 0) := "00000000000000000000000001111111";
 
 begin
+
 
   pm_lp : component servo_Controller
   port map (
@@ -42,6 +43,9 @@ begin
 	duty_cycle	=> unsigned(duty_cycle_sig(7 downto 0)),
 	pwm_output => pwm_output
   );
+  
+  -- avalon read and write processes: pretty self-explanatory, lets the avalon
+  -- master bridge send and receive the register info
   
   -- for read: 
   --		duty_cycle_sig = unused(31 downto 8) + duty_cycle(7 downto 0)
@@ -56,10 +60,7 @@ begin
   end process;
   
   -- for write: 
-  -- 		period_sig = unused (31 downto 12) + period(11 downto 0)
-  --		duty_cycle_R_sig = unused(31 downto 10) + duty_cycle_R(9 downto 0)
-  --		duty_cycle_G_sig = unused(31 downto 10) + duty_cycle_G(9 downto 0)
-  --		duty_cycle_B_sig = unused(31 downto 10) + duty_cycle_B(9 downto 0)
+  -- 		duty_cycle_sig = unused(31 downto 8) + duty_cycle(7 downto 0)
   avalon_register_write : process(clk)
   begin
     if rst = '1' then
